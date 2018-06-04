@@ -1,0 +1,35 @@
+#coding=utf-8
+
+import numpy as np
+import pandas as pd
+from sklearn.naive_bayes import BernoulliNB
+train = pd.read_csv("建模表.csv")
+y = train.FRAUD_TAG
+train['IMEI_NUM'] = (train['IMEI_NUM']=='y').astype(float)
+train['CARD_NUM'] = (train['CARD_NUM']=='y').astype(float)
+train['CALL_NUM'] = (train['CALL_NUM']=='y').astype(float)
+train['SMS_NUM'] = (train['SMS_NUM']=='y').astype(float)
+train['JOIN_MONTHS'] = (train['JOIN_MONTHS']=='y').astype(float)
+train['SAMEPLACE_DIV_NOTSAME'] = (train['SAMEPLACE_DIV_NOTSAME']=='y').astype(float)
+train['CALLTIMES_DIV_CALLNUM'] = (train['CALLTIMES_DIV_CALLNUM']=='y').astype(float)
+train['HUDA'] = (train['HUDA']=='y').astype(float)
+train['CALLED'] = (train['CALLED']=='y').astype(float)
+train['STREAM'] = (train['STREAM']=='y').astype(float)
+x = train.drop(['USER_ID','TIME','FRAUD_TAG'],axis=1)
+clf = BernoulliNB()
+clf.fit(x, y)
+BernoulliNB(alpha=1.0, binarize=0.0, class_prior=None, fit_prior=True)
+test = pd.read_csv("建模表测试.csv")
+test['IMEI_NUM'] = (test['IMEI_NUM']=='y').astype(float)
+test['CARD_NUM'] = (test['CARD_NUM']=='y').astype(float)
+test['CALL_NUM'] = (test['CALL_NUM']=='y').astype(float)
+test['SMS_NUM'] = (test['SMS_NUM']=='y').astype(float)
+test['JOIN_MONTHS'] = (test['JOIN_MONTHS']=='y').astype(float)
+test['SAMEPLACE_DIV_NOTSAME'] = (test['SAMEPLACE_DIV_NOTSAME']=='y').astype(float)
+test['CALLTIMES_DIV_CALLNUM'] = (test['CALLTIMES_DIV_CALLNUM']=='y').astype(float)
+test['HUDA'] = (test['HUDA']=='y').astype(float)
+test['CALLED'] = (test['CALLED']=='y').astype(float)
+test['STREAM'] = (test['STREAM']=='y').astype(float)
+z= np.array([0,0,0,0,0,1,0,1,0,1])
+print(clf.predict(z))
+print(clf.score(x,y))
